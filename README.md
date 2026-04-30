@@ -54,7 +54,7 @@ mariadb -u YOUR_MARIADB_USER -p movie_db < seed_movie_db.sql
 
 When prompted, enter your MariaDB password.
 
-The seed file creates the `movie_db` database tables if they do not already exist and inserts the starter movie data. The Flask app reads `DATABASE_URL` first, so setting that variable keeps the project from relying on the fallback connection string in the code.
+The seed file creates the `movie_db` database tables if they do not already exist and inserts the starter movie data. 
 
 Start the Flask API from the backend folder:
 
@@ -75,8 +75,6 @@ cd movie-bites
 npm i
 npm start
 ```
-
-The React app expects the Flask API to be available locally.
 
 ## Notes
 
