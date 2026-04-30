@@ -35,6 +35,27 @@ Planned auth work includes:
 
 ## Running The Project Locally
 
+Set the MariaDB connection environment variable before running the API:
+
+Linux
+```bash
+export DATABASE_URL="mysql+mysqlconnector://YOUR_MARIADB_USER:YOUR_MARIADB_PASSWORD@localhost/movie_db"
+```
+
+Replace `YOUR_MARIADB_USER` and `YOUR_MARIADB_PASSWORD` with your own local MariaDB username and password.
+
+Preload the MariaDB database from the backend folder:
+
+Linux
+```bash
+cd movie-api
+mariadb -u YOUR_MARIADB_USER -p movie_db < seed_movie_db.sql
+```
+
+When prompted, enter your MariaDB password.
+
+The seed file creates the `movie_db` database tables if they do not already exist and inserts the starter movie data. The Flask app reads `DATABASE_URL` first, so setting that variable keeps the project from relying on the fallback connection string in the code.
+
 Start the Flask API from the backend folder:
 
 Linux
