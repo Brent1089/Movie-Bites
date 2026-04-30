@@ -59,4 +59,4 @@ The React app expects the Flask API to be available locally.
 
 ## Notes
 
-This is a learning project and is still in progress. It is useful for practicing React components, routing, form handling, Flask routes, database models, and basic full-stack project structure.
+This is a learning project and is still in progress. 
