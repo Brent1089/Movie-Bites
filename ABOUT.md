@@ -37,15 +37,21 @@ Planned auth work includes:
 
 Start the Flask API from the backend folder:
 
+Linux
 ```bash
 cd movie-api
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 flask run
 ```
 
 Start the React app from the frontend folder:
 
+Linux
 ```bash
 cd movie-bites
+npm i
 npm start
 ```
 
