@@ -1,0 +1,7 @@
+.codex
+.env
+.env.*
+__pycache__/
+*.pyc
+movie-bites/node_modules/
+movie-bites/build/
