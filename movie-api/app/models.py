@@ -1,7 +1,6 @@
 from app import db
 
 class Movie(db.Model):
-    # This must match the table name you created in the MariaDB terminal
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +29,6 @@ class Movie(db.Model):
 
 
 class User(db.Model):
-    # This must match the table name you created in the MariaDB terminal
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
