@@ -11,7 +11,9 @@ export function AuthProvider({ children }) {
 
     const handleLogin = async (formData) => {
         try {
-            const response = await axios.post(`${api_url}/login`, formData);
+            const response = await axios.post(`${api_url}/login`, formData, {
+                withCredentials: true
+            });
             console.log('Login successful:', response.data);
             setIsLoggedIn(true);
             setUser(response.data.user);
@@ -24,7 +26,9 @@ export function AuthProvider({ children }) {
 
     const handleRegister = async (formData) => {
         try {
-            const response = await axios.post(`${api_url}/register`, formData);
+            const response = await axios.post(`${api_url}/register`, formData, {
+                withCredentials: true
+            });
             console.log('Registration successful:', response.data);
             setIsLoggedIn(true);
             setUser(response.data.user);
@@ -35,11 +39,19 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const handleLogout = () => {
-        console.log('Logout');
-        setIsLoggedIn(false);
-        setUser(null);
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${api_url}/logout`, {}, {
+                withCredentials: true
+            });
+        } catch (error) {
+            console.error('Logout failed:', error.response?.data || error.message);
+        } finally {
+            setIsLoggedIn(false);
+            setUser(null);
+        }
     };
+
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, user, handleLogin, handleRegister, handleLogout }}>
