@@ -3,10 +3,11 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import axios from 'axios';
 import { useToast } from './ToastContext';
 import { useAuth } from './AuthContext';
+import { apiBaseUrl } from './apiConfig';
 
 const MovieContext = createContext();
 
-const apiUrl = 'http://192.168.0.239:5000/movies';
+const apiUrl = `${apiBaseUrl}/movies`;
 
 const getErrorMessage = (error, fallback) => {
   return error.response?.data?.error || error.response?.data?.status || error.message || fallback;

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useToast } from './ToastContext';
+import { apiBaseUrl } from './apiConfig';
 
 const AuthContext = createContext();
 
@@ -8,8 +9,6 @@ export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
     const { showToast } = useToast();
-
-    const api_url = "http://192.168.0.239:5000";
 
     const getErrorMessage = (error, fallback) => {
         return error.response?.data?.error || error.response?.data?.status || error.message || fallback;
@@ -22,7 +21,7 @@ export function AuthProvider({ children }) {
 
     const checkCurrentUser = async () => {
         try {
-            const response = await axios.get(`${api_url}/me`, {
+            const response = await axios.get(`${apiBaseUrl}/me`, {
                 withCredentials: true
             });
 
@@ -36,7 +35,7 @@ export function AuthProvider({ children }) {
 
     const handleLogin = async (formData) => {
         try {
-            const response = await axios.post(`${api_url}/login`, formData, {
+            const response = await axios.post(`${apiBaseUrl}/login`, formData, {
                 withCredentials: true
             });
             console.log('Login successful:', response.data);
@@ -53,7 +52,7 @@ export function AuthProvider({ children }) {
 
     const handleRegister = async (formData) => {
         try {
-            const response = await axios.post(`${api_url}/register`, formData, {
+            const response = await axios.post(`${apiBaseUrl}/register`, formData, {
                 withCredentials: true
             });
             console.log('Registration successful:', response.data);
@@ -70,7 +69,7 @@ export function AuthProvider({ children }) {
 
     const handleLogout = async () => {
         try {
-            await axios.post(`${api_url}/logout`, {}, {
+            await axios.post(`${apiBaseUrl}/logout`, {}, {
                 withCredentials: true
             });
         } catch (error) {
