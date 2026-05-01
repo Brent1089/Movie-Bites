@@ -10,7 +10,7 @@ import ExpandedMovieRow from './ExpandedMovieRow';
 import { useMovies } from '../MovieContext';
 
 export default function Movies() {
-    const { movieData, deleteMovie, deleteAllMovies } = useMovies();
+    const { movieData, deleteMovie } = useMovies();
     const [showTable, setShowTable] = useState(true);
     const [buttonText, setButtonText] = useState('Add Movie');
     // Store either null or the id of the expanded row
@@ -100,10 +100,6 @@ export default function Movies() {
 
                     </tbody>
                 </table>
-            </div>
-            {/* Send delete request to backend when delete all button is pressed. */}
-            <div className="d-flex justify-content-end p-2 mt-3">
-                <button type='button' onClick={() => { deleteAllMovies() }} className='btn bg-rust btn-rust'>Delete All Movies</button>
             </div>
         </div>
     );
