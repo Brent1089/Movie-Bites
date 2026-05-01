@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Auth() {
 	const { handleLogin } = useAuth();
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		email: '',
 		password: ''
@@ -16,10 +18,14 @@ export default function Auth() {
 		}));
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		handleLogin(formData);
-	};
+	const handleSubmit = async (e) => {
+	e.preventDefault();
+	const result = await handleLogin(formData);
+	console.log(result);
+	if (result.success) {
+		navigate('/movies');
+	}
+};
 
 	return (
 		<div className="bg-rust text-rust-cream py-3 rounded-2 mt-3 mb-3 shadow-lg">
