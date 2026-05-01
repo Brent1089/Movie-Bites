@@ -16,22 +16,19 @@ The database setup is in `movie-api/seed_movie_db.sql`. That file creates the `m
 - Add new movies
 - Edit existing movies
 - Delete movies
+- Register, log in, and log out with session-based auth
+- Store hashed passwords
+- Keep user-created movies tied to the logged-in user
 - Store movie data in MariaDB
 - Use a React frontend with a Flask backend
 
-## Current Auth Status
+## Auth And Movie Ownership
 
-User authentication is not fully implemented yet.
+Movie Bites uses Flask sessions for authentication. Users can register, log in, log out, and stay logged in across page refreshes while their session is active.
 
-The project currently has Login and Register pages in the React app, and there is a `User` model in the Flask backend. However, the full authentication flow is still unfinished. At the moment, the app should not be treated as having secure, production-ready login behavior.
+Passwords are hashed before they are saved to the database. Movies created by a logged-in user are saved with that user's `user_id`, and users can only edit or delete their own movies.
 
-Planned auth work includes:
-
-- Backend login and registration routes
-- Password hashing
-- Session or token handling
-- Protected routes for logged-in users
-- Separate movie views or movie data for different users
+The seed movies have a `NULL` `user_id`, which makes them global demo entries visible to everyone. They are included to make the app feel populated for portfolio screenshots and testing. In a serious deployed version, those global entries would either be removed or handled as separate sample data.
 
 ## Running The Project Locally
 
