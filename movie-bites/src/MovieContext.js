@@ -2,6 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToast } from './ToastContext';
+import { useAuth } from './AuthContext';
 
 const MovieContext = createContext();
 
@@ -16,6 +17,7 @@ export function MovieProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { showToast } = useToast();
+  const { isLoggedIn, user } = useAuth();
 
   const getMovieData = useCallback(async () => {
     try {
@@ -96,7 +98,7 @@ export function MovieProvider({ children }) {
 
   useEffect(() => {
     getMovieData();
-  }, [getMovieData]);
+  }, [getMovieData, isLoggedIn, user?.id]);
 
   return (
     <MovieContext.Provider
@@ -107,8 +109,7 @@ export function MovieProvider({ children }) {
         getMovieData,
         addMovie,
         updateMovie,
-        deleteMovie,
-        deleteAllMovies
+        deleteMovie
       }}
     >
       {children}
