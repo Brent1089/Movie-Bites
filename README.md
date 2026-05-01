@@ -61,10 +61,8 @@ cd movie-api
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-flask run --port=5000
+flask run 
 ```
-
-The React app expects the Flask API to be available on port `5000`. By default, it uses the same hostname that loaded the React app and sends API requests to port `5000`.
 
 Start the React app from the frontend folder:
 
@@ -75,12 +73,7 @@ npm i
 npm start
 ```
 
-If you need to point the frontend at a different API URL, set `REACT_APP_API_URL` before starting React:
 
-```bash
-export REACT_APP_API_URL="http://localhost:5000"
-npm start
-```
 
 ## Notes
 
