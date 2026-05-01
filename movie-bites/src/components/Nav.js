@@ -44,7 +44,7 @@ export default function Nav() {
                             </>
                         ) : (
                             <li className="nav-item">
-                                <button onClick={handleLogout} className="nav-link text-rust-light text-rust-hover px-3 rounded-2 nav-hover bg-transparent border-0">
+                                <button onClick={handleLogout} className="nav-link auth-nav-button text-rust-light text-rust-hover px-3 rounded-2 nav-hover bg-transparent border-0">
                                     Logout
                                 </button>
                             </li>

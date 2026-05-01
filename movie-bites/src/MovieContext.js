@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext';
 
 const MovieContext = createContext();
 
-const apiUrl = 'http://localhost:5000/movies';
+const apiUrl = 'http://192.168.0.239:5000/movies';
 
 const getErrorMessage = (error, fallback) => {
   return error.response?.data?.error || error.response?.data?.status || error.message || fallback;
@@ -79,19 +79,6 @@ export function MovieProvider({ children }) {
       showToast('Movie deleted.', 'success');
     } catch (err) {
       showToast(getErrorMessage(err, 'Movie could not be deleted.'), 'error');
-      throw err;
-    }
-  }
-
-  async function deleteAllMovies() {
-    try {
-      await axios.delete(apiUrl, {
-        withCredentials: true
-      });
-      setMovieData([]);
-      showToast('Movies deleted.', 'success');
-    } catch (err) {
-      showToast(getErrorMessage(err, 'Movies could not be deleted.'), 'error');
       throw err;
     }
   }

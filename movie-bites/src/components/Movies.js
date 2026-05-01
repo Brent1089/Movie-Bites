@@ -49,7 +49,7 @@ export default function Movies() {
                 {showTable ?
                     <></>
                     :
-                    <AddMovie />
+                    <AddMovie onMovieAdded={() => updateShow(true, 'Add Movie')} />
                 }
             </div>
             <div className="rounded-3 overflow-hidden border">

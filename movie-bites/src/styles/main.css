@@ -70,6 +70,11 @@
   background-color: rgba(255, 255, 255, 0.12);
 }
 
+.auth-nav-button {
+  width: 100%;
+  text-align: center;
+}
+
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {

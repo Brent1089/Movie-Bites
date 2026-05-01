@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const { showToast } = useToast();
 
-    const api_url = "http://localhost:5000";
+    const api_url = "http://192.168.0.239:5000";
 
     const getErrorMessage = (error, fallback) => {
         return error.response?.data?.error || error.response?.data?.status || error.message || fallback;

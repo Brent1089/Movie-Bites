@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { validateMovieData } from "../utils/movieValidation";
 import { useMovies } from "../MovieContext";
 
-export default function AddMovie() {
-    const navigate = useNavigate();
+export default function AddMovie({ onMovieAdded }) {
     const { addMovie } = useMovies();
     const [errors, setErrors] = useState({});
     const [movie, setMovie] = useState({
@@ -39,7 +37,7 @@ export default function AddMovie() {
         setErrors({});
         try {
             await addMovie(movie);
-            navigate('/movies');
+            onMovieAdded?.();
         } catch (err) {
             console.error(err);
         }
