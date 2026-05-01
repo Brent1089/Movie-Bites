@@ -6,6 +6,7 @@ from app.models import Movie, User
 # ******** AUTH ROUTES ********
 @app.post("/register")
 def register():
+    """Attempt to register a new user if data is unique and exists"""
     data = request.get_json(silent=True) or {}
 
     username = data.get("username")
@@ -47,6 +48,7 @@ def register():
 
 @app.post("/login")
 def login():
+    """Attempt to login if credentials are correct and exist"""
     data = request.get_json(silent=True) or {}
 
     email = data.get("email")
@@ -70,6 +72,7 @@ def login():
 
 @app.get("/me")
 def get_current_user():
+    """Return current user_id in session if it exists"""
     user_id = session.get("user_id")
 
     if not user_id:
@@ -88,6 +91,7 @@ def get_current_user():
 
 @app.post("/logout")
 def logout():
+    """Remove user_id from session"""
     session.pop("user_id", None)
 
     return jsonify({
@@ -97,6 +101,7 @@ def logout():
 # ******** MOVIE ROUTES ********
 @app.get("/movies")
 def get_movies():
+    """Fetch and return all movie data"""
     # Fetch all records from movie table
     movies = Movie.query.all()
     # Convert SQLAlchemy objects into a dictionary
@@ -105,6 +110,7 @@ def get_movies():
 
 @app.get("/movies/<int:id>")
 def get_movie(id):
+    """Fetch and return data for specific movie"""
     movie = Movie.query.get(id)
     if movie:
         return jsonify(movie.to_dict())
@@ -113,6 +119,7 @@ def get_movie(id):
 
 @app.post("/movies")
 def create_movie():
+    """Attempt to insert a new movie record into database"""
     data = request.get_json(silent=True) or {}
 
     new_movie = Movie(**data)
@@ -128,6 +135,7 @@ def create_movie():
 
 @app.put("/movies/<int:id>")
 def update_movie(id):
+    """Attempt to update a movie record in database"""
     movie = Movie.query.get(id)
     if not movie:
         return jsonify({"status": "movie not found."})
@@ -143,6 +151,7 @@ def update_movie(id):
 
 @app.delete("/movies/<int:id>")
 def delete_movie(id):
+    """Attempt to delete a movie record in Database"""
     movie = Movie.query.get(id)
     if movie:
         db.session.delete(movie)
@@ -153,6 +162,7 @@ def delete_movie(id):
 
 @app.delete("/movies")
 def delete_all_movies():
+    """Delete all movies in database"""
     db.session.query(Movie).delete()
     db.session.commit()
     return jsonify({"status": "All movies deleted."})
