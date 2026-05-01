@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key")
 CORS(app)
 
 # Mariadb connection string, TODO: change fallback to something useful
