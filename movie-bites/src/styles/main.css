@@ -227,3 +227,23 @@ ul {
     width: 95%;
   }
 }
+
+@media (max-width: 576px) {
+  .rating-col {
+    min-width: 95px;
+  }
+
+  .icon-btn {
+    width: 22px;
+  }
+
+  .expanded-movie-content {
+    flex-direction: column;
+    align-items: center !important;
+  }
+
+  .expanded-movie-content .poster-thumbnail {
+    width: 120px;
+    height: 180px;
+  }
+}

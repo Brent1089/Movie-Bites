@@ -3,7 +3,7 @@ export default function ExpandedMovieRow({ movie, renderStars }) {
         <tr>
             <td colSpan={5}>
                 <div className="rounded-2 border border-secondary-emphasis p-3 mt-1 mb-1 shadow-sm text-start">
-                    <div className="d-flex gap-3 align-items-center">
+                    <div className="expanded-movie-content d-flex gap-3 align-items-center">
                         <img src={movie.poster_url} alt={movie.title + " poster"}
                             className="rounded-4 poster-thumbnail border border-4 border-rust" />
                         <div className="flex-grow-1">

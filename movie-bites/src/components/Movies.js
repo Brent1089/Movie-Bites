@@ -52,7 +52,7 @@ export default function Movies() {
                     <AddMovie onMovieAdded={() => updateShow(true, 'Add Movie')} />
                 }
             </div>
-            <div className="rounded-3 overflow-hidden border">
+            <div className="rounded-3 overflow-auto border">
                 <table className="table table-hover mb-0">
                     <thead className="bg-rust text-rust-cream">
                         <tr>
