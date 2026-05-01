@@ -4,6 +4,7 @@ class Movie(db.Model):
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     title = db.Column(db.String(255), nullable=False)
     year = db.Column(db.String(4))
     genre = db.Column(db.String(50))
@@ -17,6 +18,7 @@ class Movie(db.Model):
         """Converts the database row object into a dictionary for JSON responses"""
         return {
             "id": self.id,
+            "user_id": self.user_id,
             "title": self.title,
             "year": self.year,
             "genre": self.genre,
@@ -32,6 +34,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
+    movies = db.relationship('Movie', backref='user', lazy=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
