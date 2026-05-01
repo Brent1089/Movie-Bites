@@ -11,8 +11,8 @@ function validateMovieData(movie) {
     const newErrors = {};
 
     for (let key in movie) {
-        // Ignore ID
-        if (key === "id") continue;
+        // Ignore database fields that are not edited by the form.
+        if (key === "id" || key === "user_id") continue;
 
         const value = movie[key];
 

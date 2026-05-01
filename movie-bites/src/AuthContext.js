@@ -1,13 +1,38 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useToast } from './ToastContext';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const { showToast } = useToast();
 
     const api_url = "http://localhost:5000";
+
+    const getErrorMessage = (error, fallback) => {
+        return error.response?.data?.error || error.response?.data?.status || error.message || fallback;
+    };
+
+    useEffect(() => {
+        checkCurrentUser();
+    }, []);
+
+
+    const checkCurrentUser = async () => {
+        try {
+            const response = await axios.get(`${api_url}/me`, {
+                withCredentials: true
+            });
+
+            setIsLoggedIn(true);
+            setUser(response.data.user);
+        } catch (error) {
+            setIsLoggedIn(false);
+            setUser(null);
+        }
+    };
 
     const handleLogin = async (formData) => {
         try {
@@ -17,9 +42,11 @@ export function AuthProvider({ children }) {
             console.log('Login successful:', response.data);
             setIsLoggedIn(true);
             setUser(response.data.user);
+            showToast('Login successful.', 'success');
             return { success: true, data: response.data };
         } catch (error) {
             console.error('Login failed:', error.response?.data || error.message);
+            showToast(getErrorMessage(error, 'Login failed.'), 'error');
             return { success: false, error: error.response?.data || 'Login failed' };
         }
     };
@@ -32,9 +59,11 @@ export function AuthProvider({ children }) {
             console.log('Registration successful:', response.data);
             setIsLoggedIn(true);
             setUser(response.data.user);
+            showToast('Registration successful.', 'success');
             return { success: true, data: response.data };
         } catch (error) {
             console.error('Registration failed:', error.response?.data || error.message);
+            showToast(getErrorMessage(error, 'Registration failed.'), 'error');
             return { success: false, error: error.response?.data || 'Registration failed' };
         }
     };
@@ -46,12 +75,13 @@ export function AuthProvider({ children }) {
             });
         } catch (error) {
             console.error('Logout failed:', error.response?.data || error.message);
+            showToast(getErrorMessage(error, 'Logout failed.'), 'error');
         } finally {
             setIsLoggedIn(false);
             setUser(null);
+            showToast('Logged out.', 'info');
         }
     };
-
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, user, handleLogin, handleRegister, handleLogout }}>
@@ -63,4 +93,3 @@ export function AuthProvider({ children }) {
 export function useAuth() {
     return useContext(AuthContext);
 }
-
