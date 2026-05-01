@@ -1,4 +1,5 @@
 from flask import jsonify, request, session
+from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
 from app.models import Movie, User
@@ -6,7 +7,7 @@ from app.models import Movie, User
 # ******** AUTH ROUTES ********
 @app.post("/register")
 def register():
-    """Attempt to register a new user if data is unique and exists"""
+    """Register a new user with a hashed password."""
     data = request.get_json(silent=True) or {}
 
     username = data.get("username")
@@ -34,6 +35,7 @@ def register():
     try:
         db.session.add(new_user)
         db.session.commit()
+        session["user_id"] = new_user.id
         return jsonify({
             "status": "User Registered.",
             "user": new_user.to_dict()
@@ -48,7 +50,7 @@ def register():
 
 @app.post("/login")
 def login():
-    """Attempt to login if credentials are correct and exist"""
+    """Log in a user and store their id in the session."""
     data = request.get_json(silent=True) or {}
 
     email = data.get("email")
@@ -72,7 +74,7 @@ def login():
 
 @app.get("/me")
 def get_current_user():
-    """Return current user_id in session if it exists"""
+    """Return the current session user."""
     user_id = session.get("user_id")
 
     if not user_id:
@@ -91,7 +93,7 @@ def get_current_user():
 
 @app.post("/logout")
 def logout():
-    """Remove user_id from session"""
+    """Clear the current user session."""
     session.pop("user_id", None)
 
     return jsonify({
@@ -101,68 +103,115 @@ def logout():
 # ******** MOVIE ROUTES ********
 @app.get("/movies")
 def get_movies():
-    """Fetch and return all movie data"""
-    # Fetch all records from movie table
-    movies = Movie.query.all()
-    # Convert SQLAlchemy objects into a dictionary
+    """Return public movies plus the current user's movies."""
+    user_id = session.get("user_id")
+
+    if user_id:
+        movies = Movie.query.filter(
+            or_(
+                Movie.user_id == user_id,
+                Movie.user_id.is_(None)
+            )
+        ).all()
+    else:
+        movies = Movie.query.filter_by(user_id=None).all()
+
     return jsonify([movie.to_dict() for movie in movies])
 
 
 @app.get("/movies/<int:id>")
 def get_movie(id):
-    """Fetch and return data for specific movie"""
+    """Fetch and return data for a specific public or user-owned movie."""
+    user_id = session.get("user_id")
     movie = Movie.query.get(id)
-    if movie:
-        return jsonify(movie.to_dict())
-    return jsonify([])
+
+    if not movie:
+        return jsonify({"error": "Movie not found."}), 404
+
+    if movie.user_id is not None and movie.user_id != user_id:
+        return jsonify({"error": "You do not have access to this movie."}), 403
+
+    return jsonify(movie.to_dict()), 200
 
 
 @app.post("/movies")
 def create_movie():
-    """Attempt to insert a new movie record into database"""
+    """Create a movie owned by the current user."""
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "You must be logged in to add a movie."}), 401
+
     data = request.get_json(silent=True) or {}
+    data["user_id"] = user_id
 
     new_movie = Movie(**data)
 
     try:
         db.session.add(new_movie)
         db.session.commit()
-        return jsonify({"status": "New Movie added.", "id": new_movie.id})
+        return jsonify(new_movie.to_dict()), 201
     except Exception as e:
         db.session.rollback()
-        return jsonify({"status": "Movie could not be added.", "error": str(e)})
+        return jsonify({"status": "Movie could not be added.", "error": str(e)}), 500
 
 
 @app.put("/movies/<int:id>")
 def update_movie(id):
-    """Attempt to update a movie record in database"""
+    """Update a movie owned by the current user."""
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "You must be logged in to update a movie."}), 401
+
     movie = Movie.query.get(id)
+
     if not movie:
-        return jsonify({"status": "movie not found."})
+        return jsonify({"error": "Movie not found."}), 404
+
+    if movie.user_id != user_id:
+        return jsonify({"error": "You can only update your own movies."}), 403
 
     data = request.get_json(silent=True) or {}
 
     for key, value in data.items():
-        if hasattr(movie, key):
+        if key not in ["id", "user_id"] and hasattr(movie, key):
             setattr(movie, key, value)
 
-    db.session.commit()
-    return jsonify({"status": "movie updated."})
+    try:
+        db.session.commit()
+        return jsonify(movie.to_dict()), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "error": "Movie could not be updated.",
+            "details": str(e)
+        }), 500
+
 
 @app.delete("/movies/<int:id>")
 def delete_movie(id):
-    """Attempt to delete a movie record in Database"""
+    """Delete a movie owned by the current user."""
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "You must be logged in to delete a movie."}), 401
+
     movie = Movie.query.get(id)
-    if movie:
+
+    if not movie:
+        return jsonify({"error": "Movie not found."}), 404
+
+    if movie.user_id != user_id:
+        return jsonify({"error": "You can only delete your own movies."}), 403
+
+    try:
         db.session.delete(movie)
         db.session.commit()
-        return jsonify({"status": "Movie deleted."})
-    return jsonify({"status": "Movie not found."})
-
-
-@app.delete("/movies")
-def delete_all_movies():
-    """Delete all movies in database"""
-    db.session.query(Movie).delete()
-    db.session.commit()
-    return jsonify({"status": "All movies deleted."})
+        return jsonify({"status": "Movie deleted.", "id": id}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "error": "Movie could not be deleted.",
+            "details": str(e)
+        }), 500

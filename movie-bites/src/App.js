@@ -12,29 +12,32 @@ import Auth from './components/Auth';
 import Register from './components/Register';
 import { AuthProvider } from './AuthContext';
 import { MovieProvider } from './MovieContext';
+import { ToastProvider } from './ToastContext';
 
 function App() {
   return (
-    <AuthProvider>
-      <MovieProvider>
-        <div>
-          <Nav />
-          <div className="content-wrapper">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="movies" element={<Movies />} />
-              <Route path="/add" element={<AddMovie />} />
-              <Route path="/edit/:id" element={<EditMovieWrapper />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/login" element={<Auth />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
+    <ToastProvider>
+      <AuthProvider>
+        <MovieProvider>
+          <div>
+            <Nav />
+            <div className="content-wrapper">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="movies" element={<Movies />} />
+                <Route path="/add" element={<AddMovie />} />
+                <Route path="/edit/:id" element={<EditMovieWrapper />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Auth />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </MovieProvider>
-    </AuthProvider>
+        </MovieProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 
