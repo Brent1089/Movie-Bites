@@ -190,7 +190,7 @@ footer {
 
 .toast-stack {
   position: fixed;
-  top: 76px;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2000;
