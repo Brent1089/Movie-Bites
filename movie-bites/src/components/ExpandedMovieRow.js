@@ -1,7 +1,7 @@
 export default function ExpandedMovieRow({ movie, renderStars }) {
     return (
         <tr className="expanded-movie-row">
-            <td colSpan={5} className="expanded-movie-cell">
+            <td colSpan={4} className="expanded-movie-cell">
                 <div className="expanded-movie-card rounded-2 border border-secondary-emphasis p-3 shadow-sm text-start">
                     <div className="expanded-movie-content d-flex gap-3 align-items-center">
                         <img src={movie.poster_url} alt={movie.title + " poster"}

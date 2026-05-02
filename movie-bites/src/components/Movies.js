@@ -56,7 +56,6 @@ export default function Movies() {
                 <table className="table table-hover mb-0">
                     <thead className="bg-rust text-rust-cream">
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Title</th>
                             <th scope="col">Year</th>
                             <th scope="col" className="rating-col">Rating</th>
@@ -71,7 +70,6 @@ export default function Movies() {
                                 <Fragment key={movie.id}>
                                     {/* On click toggle that row's ID for expansion */}
                                     <tr onClick={() => toggleExpand(movie.id)}>
-                                        <td>{movie.id}</td>
                                         <td>{movie.title}</td>
                                         <td>{movie.year}</td>
                                         <td className="">
