@@ -33,7 +33,7 @@ export default function Movies() {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
             stars.push(
-                <img key={i} src={i <= rating ? starFull : starEmpty} className="icon-btn img-fluid"
+                <img key={i} src={i <= rating ? starFull : starEmpty} className="star-icon img-fluid"
                     alt={rating} />
             );
         }
@@ -82,10 +82,10 @@ export default function Movies() {
                                         <td>
                                             {/* Use stopPropagation() to prevent row from expanding when edit or delete are clicked. */}
                                             <Link to={`/edit/${movie.id}`} onClick={(e) => { e.stopPropagation(); }}>
-                                                <img src={editButton} className='icon-btn img-fluid' alt='edit' />
+                                                <img src={editButton} className='icon-btn action-icon img-fluid' alt='edit' />
                                             </Link>
                                             <button type="button" onClick={(e) => { e.stopPropagation(); deleteMovie(movie.id); }} className='img-button'>
-                                                <img src={deleteButton} className="icon-btn img-fluid" alt="delete" />
+                                                <img src={deleteButton} className="icon-btn action-icon img-fluid" alt="delete" />
                                             </button>
                                         </td>
                                     </tr>

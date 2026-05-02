@@ -140,6 +140,9 @@ footer {
 .icon-btn {
   width: 28px;
   height: auto;
+}
+
+.action-icon {
   margin-top: -5px;
 }
 
@@ -151,7 +154,7 @@ footer {
 }
 
 .star-icon {
-  width: 20px;
+  width: 28px;
   height: auto;
   margin: 0 2px;
   vertical-align: middle;
@@ -251,6 +254,10 @@ ul {
   }
 
   .icon-btn {
+    width: 22px;
+  }
+
+  .star-icon {
     width: 22px;
   }
 
