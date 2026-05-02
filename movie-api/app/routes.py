@@ -80,7 +80,7 @@ def get_current_user():
     if not user_id:
         return jsonify({"user": None}), 401
 
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
 
     if not user:
         session.pop("user_id", None)
@@ -123,7 +123,7 @@ def get_movies():
 def get_movie(id):
     """Fetch and return data for a specific public or user-owned movie."""
     user_id = session.get("user_id")
-    movie = Movie.query.get(id)
+    movie = db.session.get(Movie, id)
 
     if not movie:
         return jsonify({"error": "Movie not found."}), 404
@@ -164,7 +164,7 @@ def update_movie(id):
     if not user_id:
         return jsonify({"error": "You must be logged in to update a movie."}), 401
 
-    movie = Movie.query.get(id)
+    movie = db.session.get(Movie, id)
 
     if not movie:
         return jsonify({"error": "Movie not found."}), 404
@@ -197,7 +197,7 @@ def delete_movie(id):
     if not user_id:
         return jsonify({"error": "You must be logged in to delete a movie."}), 401
 
-    movie = Movie.query.get(id)
+    movie = db.session.get(Movie, id)
 
     if not movie:
         return jsonify({"error": "Movie not found."}), 404
