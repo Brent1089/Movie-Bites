@@ -14,7 +14,7 @@ export default function Home() {
                 <p className="mx-3">
                     Movie Bites is your personal hub for exploring movies, managing what you've watched, and discovering what to enjoy next. 
                     Browse reviews, track your watchlist, and rate films to build your own collection of favorites. Learn more about how the 
-                    site works in the About section, or reach out anytime through our Contact page. Whether you're a casual viewer or a passionate 
+                    site works in the About section. Whether you're a casual viewer or a passionate 
                     film fanatic, Movie Bites makes it easier to keep your movie life organized and enjoyable.
                 </p>
             </div>
