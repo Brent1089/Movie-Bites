@@ -4,7 +4,7 @@ Movie Bites is a beginner full-stack movie tracking project. It uses a React fro
 
 ## How The Project Works
 
-The frontend lives in `movie-bites/`. It is a Create React App project that displays pages such as Home, Movies, Add Movie, About, Login, and Register.
+The frontend lives in `movie-bites/`. It is a Create React App project that displays pages such as Home, Movies, About, Login, and Register.
 
 The backend lives in `movie-api/`. It is a Flask app that exposes API routes for movie data. The React app sends requests to the Flask API, and the Flask API reads from or writes to the MariaDB database.
 
