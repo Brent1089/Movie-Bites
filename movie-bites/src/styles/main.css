@@ -154,10 +154,18 @@ footer {
 }
 
 .star-icon {
-  width: 28px;
+  width: 24px;
   height: auto;
-  margin: 0 2px;
+  margin: 0;
   vertical-align: middle;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  white-space: nowrap;
 }
 
 .rating-col {
@@ -258,7 +266,7 @@ ul {
   }
 
   .star-icon {
-    width: 22px;
+    width: 18px;
   }
 
   .expanded-movie-content {

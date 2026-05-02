@@ -75,7 +75,7 @@ export default function Movies() {
                                         <td>{movie.title}</td>
                                         <td>{movie.year}</td>
                                         <td className="">
-                                            <div className='d-flex justify-content-center'>
+                                            <div className="rating-stars">
                                                 {renderStars(movie.star_rating)}
                                             </div>
                                         </td>
