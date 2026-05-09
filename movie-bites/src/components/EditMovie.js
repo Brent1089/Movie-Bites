@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useMovies } from '../MovieContext';
 import { validateMovieData } from '../utils/movieValidation';
 
+/**
+ * Renders the edit form for the movie identified by the route parameter.
+ */
 export default function EditMovie() {
     const params = useParams();
     const navigate = useNavigate();
@@ -28,13 +31,17 @@ export default function EditMovie() {
         }
     }, [movieData, params.id]);
 
-    // Update state on input change
+    /**
+     * Updates the matching movie field as form inputs change.
+     */
     function handleChange(event) {
         const { name, value } = event.target;
         setMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
     }
 
-    // Validate input and submit / show errors.
+    /**
+     * Validates movie fields, saves updates, and returns to the movie list on success.
+     */
     async function handleUpdate(event) {
         event.preventDefault();
 

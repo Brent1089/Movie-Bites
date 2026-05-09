@@ -9,10 +9,19 @@ const MovieContext = createContext();
 
 const apiUrl = `${apiBaseUrl}/movies`;
 
+/**
+ * Pulls a message from an API error.
+ */
 const getErrorMessage = (error, fallback) => {
   return error.response?.data?.error || error.response?.data?.status || error.message || fallback;
 };
 
+/**
+ * Provides movie data, loading/error state, and CRUD actions to child components.
+ *
+ * Movie data is refreshed when the authenticated user changes so the list stays
+ * scoped to the current session.
+ */
 export function MovieProvider({ children }) {
   const [movieData, setMovieData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,6 +29,9 @@ export function MovieProvider({ children }) {
   const { showToast } = useToast();
   const { isLoggedIn, user } = useAuth();
 
+  /**
+   * Fetches movies for the current session and stores them in context state.
+   */
   const getMovieData = useCallback(async () => {
     try {
       setLoading(true);
@@ -36,6 +48,9 @@ export function MovieProvider({ children }) {
     }
   }, [showToast]);
 
+  /**
+   * Creates a movie through the API and appends it to the movie list.
+   */
   async function addMovie(newMovieData) {
     try {
       const res = await axios.post(apiUrl, newMovieData, {
@@ -51,6 +66,9 @@ export function MovieProvider({ children }) {
     }
   }
 
+  /**
+   * Updates a movie through the API and replaces it in local state.
+   */
   async function updateMovie(updatedMovie) {
     try {
       const res = await axios.put(`${apiUrl}/${updatedMovie.id}`, updatedMovie, {
@@ -71,6 +89,9 @@ export function MovieProvider({ children }) {
     }
   }
 
+  /**
+   * Deletes a movie through the API and removes it from local state.
+   */
   async function deleteMovie(id) {
     try {
       await axios.delete(`${apiUrl}/${id}`, {
@@ -105,6 +126,9 @@ export function MovieProvider({ children }) {
   );
 }
 
+/**
+ * Reads movie list state and movie CRUD handlers from MovieContext.
+ */
 export function useMovies() {
   return useContext(MovieContext);
 }

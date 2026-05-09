@@ -2,6 +2,9 @@ import { useState } from "react";
 import { validateMovieData } from "../utils/movieValidation";
 import { useMovies } from "../MovieContext";
 
+/**
+ * Renders the new-movie form and submits valid movie data through MovieContext.
+ */
 export default function AddMovie({ onMovieAdded }) {
     const { addMovie } = useMovies();
     const [errors, setErrors] = useState({});
@@ -16,13 +19,17 @@ export default function AddMovie({ onMovieAdded }) {
         comment: ""
     });
 
-    // Update state on input change
+    /**
+     * Updates the matching movie field as form inputs change.
+     */
     function handleChange(event) {
         const { name, value } = event.target;
         setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
     }
 
-    // Validate input and submit for / show errors.
+    /**
+     * Validates movie fields and creates the movie when no validation errors exist.
+     */
     async function handleSubmit(event) {
         event.preventDefault();
         const newErrors = validateMovieData(movie);

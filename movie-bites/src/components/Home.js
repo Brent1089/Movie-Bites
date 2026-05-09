@@ -2,6 +2,9 @@ import logo from '../assets/mblogo.png';
 import tickets from '../assets/tickets_banner.jpg'
 
 
+/**
+ * Renders the landing page content for Movie Bites.
+ */
 export default function Home() {
     return(
         <div>

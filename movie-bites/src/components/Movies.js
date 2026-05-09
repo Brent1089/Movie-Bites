@@ -9,6 +9,9 @@ import ShowHideAddMovie from './ShowHideAddMovie';
 import ExpandedMovieRow from './ExpandedMovieRow';
 import { useMovies } from '../MovieContext';
 
+/**
+ * Displays the watched-movies table, add form toggle, and row-level actions.
+ */
 export default function Movies() {
     const { movieData, deleteMovie } = useMovies();
     const [showTable, setShowTable] = useState(true);
@@ -16,19 +19,24 @@ export default function Movies() {
     // Store either null or the id of the expanded row
     const [expandedMovieId, setExpandedMovieId] = useState(null);
 
-    // Updates showTable and buttonText when show / hide button pressed.
+    /**
+     * Updates the add-form visibility and its controlling button label.
+     */
     function updateShow(showTable, buttonText) {
         setShowTable(showTable);
         setButtonText(buttonText);
     }
 
-    // Change expandedMovieId to either null or a specified id when a tr is clicked below.
+    /**
+     * Expands a movie row, or collapses it if it is already open.
+     */
     function toggleExpand(id) {
         setExpandedMovieId(prev => (prev === id ? null : id));
     }
 
-    // Loop 5 times and fill stars array with img elements of either a full or empty star 
-    // depending on rating.
+    /**
+     * Builds the five-star rating display for a movie rating.
+     */
     function renderStars(rating) {
         const stars = [];
         for (let i = 1; i <= 5; i++) {

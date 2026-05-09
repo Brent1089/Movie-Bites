@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Renders the login form and redirects to the movies page after successful login.
+ */
 export default function Auth() {
 	const { handleLogin } = useAuth();
 	const navigate = useNavigate();
@@ -10,6 +13,9 @@ export default function Auth() {
 		password: ''
 	});
 
+	/**
+	 * Updates the matching login form field.
+	 */
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData(prev => ({
@@ -18,6 +24,9 @@ export default function Auth() {
 		}));
 	};
 
+	/**
+	 * Submits login credentials and navigates to the movie list on success.
+	 */
 	const handleSubmit = async (e) => {
 	e.preventDefault();
 	const result = await handleLogin(formData);
@@ -52,4 +61,3 @@ export default function Auth() {
 		</div>
 	);
 }
-

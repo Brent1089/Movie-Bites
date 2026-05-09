@@ -1,3 +1,6 @@
+/**
+ * Renders the site footer copyright notice.
+ */
 export default function Footer(props) {
 
     return (

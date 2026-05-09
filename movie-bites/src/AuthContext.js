@@ -5,11 +5,20 @@ import { apiBaseUrl } from './apiConfig';
 
 const AuthContext = createContext();
 
+/**
+ * Provides authentication state and account actions to the app.
+ *
+ * Tracks the current session on mount, stores the logged-in user, and exposes
+ * login, registration, and logout handlers for consuming components.
+ */
 export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
     const { showToast } = useToast();
 
+    /**
+     * Pulls the most useful message out of an Axios error response.
+     */
     const getErrorMessage = (error, fallback) => {
         return error.response?.data?.error || error.response?.data?.status || error.message || fallback;
     };
@@ -19,6 +28,9 @@ export function AuthProvider({ children }) {
     }, []);
 
 
+    /**
+     * Checks whether the API has an active user session and syncs local auth state.
+     */
     const checkCurrentUser = async () => {
         try {
             const response = await axios.get(`${apiBaseUrl}/me`, {
@@ -33,6 +45,9 @@ export function AuthProvider({ children }) {
         }
     };
 
+    /**
+     * Logs a user in with email and password credentials.
+     */
     const handleLogin = async (formData) => {
         try {
             const response = await axios.post(`${apiBaseUrl}/login`, formData, {
@@ -50,6 +65,9 @@ export function AuthProvider({ children }) {
         }
     };
 
+    /**
+     * Registers a new account and stores the returned authenticated user.
+     */
     const handleRegister = async (formData) => {
         try {
             const response = await axios.post(`${apiBaseUrl}/register`, formData, {
@@ -67,6 +85,9 @@ export function AuthProvider({ children }) {
         }
     };
 
+    /**
+     * Ends the active API session and clears local authentication state.
+     */
     const handleLogout = async () => {
         try {
             await axios.post(`${apiBaseUrl}/logout`, {}, {
@@ -89,6 +110,9 @@ export function AuthProvider({ children }) {
     );
 }
 
+/**
+ * Reads authentication state and auth handlers from AuthContext.
+ */
 export function useAuth() {
     return useContext(AuthContext);
 }

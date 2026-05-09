@@ -2,13 +2,22 @@ import { createContext, useCallback, useContext, useState } from 'react';
 
 const ToastContext = createContext();
 
+/**
+ * Provides toast notification helpers and renders the active toast stack.
+ */
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
+  /**
+   * Removes a toast from the stack by ID.
+   */
   const removeToast = useCallback((id) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   }, []);
 
+  /**
+   * Shows a temporary notification message.
+   */
   const showToast = useCallback((message, type = 'info') => {
     const id = Date.now() + Math.random();
 
@@ -38,6 +47,9 @@ export function ToastProvider({ children }) {
   );
 }
 
+/**
+ * Reads toast actions from ToastContext.
+ */
 export function useToast() {
   return useContext(ToastContext);
 }

@@ -5,12 +5,18 @@ import { NavigationContext } from '../NavContext';
 import { useAuth } from '../AuthContext';
 import logo from '../assets/mblogo.png';
 
+/**
+ * Renders the responsive navigation bar and auth-specific navigation actions.
+ */
 export default function Nav() {
     const navigation = useContext(NavigationContext);
     const { isLoggedIn, handleLogout } = useAuth();
     const location = useLocation();
     const navbarCollapseRef = useRef(null);
 
+    /**
+     * Closes the Bootstrap mobile nav menu when it is currently expanded.
+     */
     function closeMobileNav() {
         const collapseElement = navbarCollapseRef.current;
 
@@ -26,6 +32,9 @@ export default function Nav() {
         closeMobileNav();
     }, [location.pathname]);
 
+    /**
+     * Closes the mobile menu before logging the user out.
+     */
     function handleLogoutClick() {
         closeMobileNav();
         handleLogout();

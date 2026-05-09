@@ -1,6 +1,9 @@
 import logo from '../assets/mblogo.png';
 import theater from '../assets/theater.jpg'
 
+/**
+ * Renders the about page with author and portfolio details.
+ */
 export default function About() {
     return (
         <div>

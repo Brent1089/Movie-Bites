@@ -1,3 +1,6 @@
+/**
+ * Renders the details row shown beneath an expanded movie table row.
+ */
 export default function ExpandedMovieRow({ movie, renderStars }) {
     return (
         <tr className="expanded-movie-row">

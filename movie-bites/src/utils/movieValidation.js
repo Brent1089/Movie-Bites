@@ -7,6 +7,7 @@ import {
     ageRatingValidate
 } from "./Validators";
 
+// Validate editable movie form fields and return field-specific messages.
 function validateMovieData(movie) {
     const newErrors = {};
 

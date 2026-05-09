@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../AuthContext';
 
+/**
+ * Renders the account registration form.
+ */
 export default function Register() {
 	const { handleRegister } = useAuth();
 	const [formData, setFormData] = useState({
@@ -9,6 +12,9 @@ export default function Register() {
 		password: ''
 	});
 
+	/**
+	 * Updates the matching registration form field.
+	 */
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData(prev => ({
@@ -17,6 +23,9 @@ export default function Register() {
 		}));
 	};
 
+	/**
+	 * Submits registration details to AuthContext.
+	 */
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		handleRegister(formData);
@@ -53,4 +62,3 @@ export default function Register() {
 		</div>
 	);
 }
-
